@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p>
+        <input type="button" value="发送" onclick="send();">
+    </p>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script>
+        function send(){
+            $.post(
+                "/community"+"/alpha"+"/ajax", //你要访问的路径
+                {"name":"apple","age":123},//提交的json对象
+                function (data){ //回调函数，服务器给浏览器返回的数据
+                    console.log(typeof(data));
+                    console.log(data);
+                    data = $.parseJSON(data); //把字符串转换位json对象
+                    console.log(typeof(data));
+                    console.log(data.code);
+                    console.log(data.msg);
+                }
+            );
+        }
+    </script>
+
+</body>
+</html>
