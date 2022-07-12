@@ -65,10 +65,10 @@
 					<!-- 筛选条件 -->
 					<ul class="nav nav-tabs mb-3">
 						<li class="nav-item">
-							<a class="nav-link active" href="#">最新</a>
+							<a th:class="|nav-link ${searchMode==0?'active':''}|" th:href="@{/index(searchMode=0)}">最新</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">最热</a>
+							<a th:class="|nav-link ${searchMode==1?'active':''}|" th:href="@{/index(searchMode=1)}">最热</a>
 						</li>
 					</ul>
 					<!-- 我要发布按钮，当你点这个按钮，下面的弹出框就会弹出 -->

@@ -6,8 +6,10 @@ import com.newcoder.community.community.service.*;
 import com.newcoder.community.community.util.CommunityConstant;
 import com.newcoder.community.community.util.CommunityUtil;
 import com.newcoder.community.community.util.HostHolder;
+import com.newcoder.community.community.util.RedisKeyUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,9 +37,12 @@ public class DiscussController implements CommunityConstant {
     @Autowired
     private LikeService likeService;
 
-    @Autowired
-    private ElasticsearchService elasticsearchService;
+//    @Autowired
+//    private ElasticsearchService elasticsearchService;
 
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
@@ -64,6 +69,10 @@ public class DiscussController implements CommunityConstant {
         //触发帖子发布事件
         Event event = new Event();
 
+
+        //计算帖子分数
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(redisKey,post.getId());
 
 
         //报错的情况，将来统一处理。
@@ -164,5 +173,6 @@ public class DiscussController implements CommunityConstant {
     }
 
 
+    //TODO:帖子加精的处理和分数计算
 
 }

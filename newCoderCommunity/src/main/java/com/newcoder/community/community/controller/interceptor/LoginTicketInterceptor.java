@@ -6,6 +6,10 @@ import com.newcoder.community.community.service.UserService;
 import com.newcoder.community.community.util.CookieUtil;
 import com.newcoder.community.community.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+/**
+ * Spring Security：认证信息的保存、清除
+ */
 @Component
 public class LoginTicketInterceptor implements HandlerInterceptor {
 
@@ -40,6 +47,12 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
                 //使用HostHoder工具取持有用户，为什么其能持有？我们把数据存到当前线程对应的map里。只要这个请求没有处理完，则这个线程一直还在。
                 //当请求处理完，服务器向浏览器做出响应后，这个线程被销毁。所以处理过程中，数据一直都在。
                 hostHolder.setUser(user);
+
+                //构建用户认证的结果，并存入SecurityContext,以便Security进行授权
+                Authentication authentication = new UsernamePasswordAuthenticationToken(user,user.getPassword()
+                ,userService.getAuthorities(user.getId()));
+                SecurityContextHolder.setContext(new SecurityContextImpl(authentication));
+
             }
         }
 
@@ -60,5 +73,8 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         //清理掉数据
         hostHolder.clear();
+
+//        //清楚SecurityContext里的认证
+//        SecurityContextHolder.clearContext();
     }
 }

@@ -1,4 +1,4 @@
-package com.newcoder.community.community.controller.advice.config;
+package com.newcoder.community.community.config;
 
 
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.newcoder.community.community.controller.advice.config;
+package com.newcoder.community.community.config;
 
 //配置类，注解bean声明。在容器中装配一个第三方的bean，那个bean在jar包里。不能去加注解，那是别人写的，不能轻易改。
 

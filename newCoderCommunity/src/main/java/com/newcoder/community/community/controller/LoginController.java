@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -192,9 +193,15 @@ public class LoginController implements CommunityConstant {
     }
 
 
+    /**
+     * Spring Security：退出清理认证信息
+     * @param ticket
+     * @return
+     */
     @RequestMapping(path="/logout",method = RequestMethod.GET)
     public String logout(@CookieValue("ticket") String ticket) { //要求Spring注入cookie
         userService.logout(ticket);
+        SecurityContextHolder.clearContext();
         return "redirect:/login"; //默认是get请求
     }
 

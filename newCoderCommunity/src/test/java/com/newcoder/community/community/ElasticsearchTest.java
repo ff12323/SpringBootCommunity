@@ -38,24 +38,24 @@ public class ElasticsearchTest {
 //    @Autowired
 //    private ElasticsearchTemplate elasticsearchTemplate;
 
-    @Test
-    public void testInsert(){
-        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(103,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(111,0,100));
-    }
+//    @Test
+//    public void testInsert(){
+//        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(103,0,100));
+//        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(111,0,100));
+//    }
+//
+//    @Test
+//    public void testUpdate(){
+//        DiscussPost discussPost = discussPostMapper.selectDiscussPostById(280);
+//        discussPost.setContent("事务（关系型数据库）");
+//        discussPostRepository.save(discussPost);
+//    }
 
-    @Test
-    public void testUpdate(){
-        DiscussPost discussPost = discussPostMapper.selectDiscussPostById(280);
-        discussPost.setContent("事务（关系型数据库）");
-        discussPostRepository.save(discussPost);
-    }
 
-
-    @Test
-    public void testDelete(){
-        discussPostRepository.deleteById(280);
-    }
+//    @Test
+//    public void testDelete(){
+//        discussPostRepository.deleteById(280);
+//    }
 
 
 

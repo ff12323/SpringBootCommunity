@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class ServiceLogAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceLogAspect.class);
@@ -30,6 +30,8 @@ public class ServiceLogAspect {
         //用户[1.2.3.4],在[xxx时间],访问了[com.newcoder.community.community.service.xxx()方法].
         //怎么获取request对象呢？
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null)
+            return;
         HttpServletRequest request = attributes.getRequest();
         String ip = request.getRemoteHost(); //localhost为0:0:0:0:0:0:0:1，也可以用127.0.0.1代替localhost访问显示则不同
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

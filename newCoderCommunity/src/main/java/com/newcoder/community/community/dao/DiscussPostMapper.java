@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface DiscussPostMapper {
 
-    List<DiscussPost> selectDiscussPosts(int userId,int offset,int limit);
+    List<DiscussPost> selectDiscussPosts(int userId,int offset,int limit,int searchMode);
 
 
     //@Param 可以给参数起别名，缩短。  动态SQL<if>里，且只有一个参数。则一定要起别名
@@ -20,4 +20,10 @@ public interface DiscussPostMapper {
     DiscussPost selectDiscussPostById(int id);
 
     int updateDiscussPostCommentCount(int id,int commentCount);
+
+    /**
+     * 更新分数
+     * @return It's the number of records affected(updated or deleted)
+     */
+    int updateScore(int id,double score);
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,18 +32,19 @@ public class HomeController implements CommunityConstant {
     private LikeService likeService;
 
     @RequestMapping(path ="/index", method = RequestMethod.GET)
-    public String getIndexPage(Model model, Page page){
+    public String getIndexPage(Model model, Page page,
+                               @RequestParam(name = "searchMode",defaultValue = "0") int searchMode){
         //Spring MVC里面 model是由DispatcherServlet初始化的，page也是由其初始化且数据注入也是。
         //方法调用前，Spring MVC会自动实例化Model和Page，并将Page给注入Model里。
         //所以，在thymeleaf里，我们可以直接访问page对象里的数据。
 
         //设置 帖子的总数量
         page.setRows(discussPostService.findDiscussPostsRows(0));
-        page.setPath("/index");
+        page.setPath("/index?searchMode=" + searchMode);
 
 
 
-        List<DiscussPost> list = discussPostService.findDiscussPosts(0,page.getOffset(),page.getLimit());
+        List<DiscussPost> list = discussPostService.findDiscussPosts(0,page.getOffset(),page.getLimit(),searchMode);
         List<Map<String, Object>> discussPosts = new ArrayList<>();
 
         if(list != null){
@@ -61,8 +63,9 @@ public class HomeController implements CommunityConstant {
         }
 
         model.addAttribute("discussPosts",discussPosts);
+        model.addAttribute("searchMode",searchMode);
 
-        System.out.println("total:"+page.getTotal() + " rows:"+page.getRows());
+        //System.out.println("total:"+page.getTotal() + " rows:"+page.getRows());
         return "/index";
     }
 
@@ -70,6 +73,13 @@ public class HomeController implements CommunityConstant {
     @RequestMapping(path = "/error",method = RequestMethod.GET)
     public String getErrorPage(){
         return "/error/500";
+    }
+
+
+    //权限不足：拒绝访问
+    @RequestMapping(path = "/denied",method = RequestMethod.GET)
+    public String denied(){
+        return "/error/404";
     }
 
 

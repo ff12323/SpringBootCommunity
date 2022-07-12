@@ -10,7 +10,9 @@ import java.util.List;
 //继承，泛型：处理的实体类是什么，主键是什么类型？
 //声明好，Spring就会自动帮我们实现。
 @Repository
-public interface DiscussPostRepository extends ElasticsearchRepository<DiscussPost,Integer> {
+public interface DiscussPostRepository
+//        extends ElasticsearchRepository<DiscussPost,Integer>
+{
 
     List<DiscussPost> findByTitle(String title);
 }

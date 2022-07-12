@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
+/**
+ * 登录的拦截器
+ * 弃用原因：在WebMvcConfig里弃用了，不再使用了。改用Spring Security
+ */
+@Deprecated
 @Component
 public class LoginRequiredInteceptor implements HandlerInterceptor {
 
