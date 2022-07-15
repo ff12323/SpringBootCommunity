@@ -54,4 +54,11 @@ public class MessageService {
         return messageMapper.updateStatus(ids, 1);
     }
 
+    public Message getNewestUnreadMsg(int id, String topicComment) {
+        return messageMapper.getNewestUnreadMsg(id,topicComment);
+    }
+
+    public int findSystemMsgUnreadCount(int id, String topicComment) {
+        return messageMapper.findSystemMsgUnreadCount( id,  topicComment);
+    }
 }

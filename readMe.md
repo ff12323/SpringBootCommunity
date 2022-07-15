@@ -2,6 +2,7 @@
 Maven多模块项目：
 - 1、核心是牛客社区
 - 2、附加Demo熟悉项目：如Spring Security的简单Demo
+- 3、Spring Cloud项目（包含3个小项目）：Demo熟悉
 
 ## 自我记录与索引
  
@@ -19,5 +20,5 @@ bug记录：
 - 1、教程中在LoginToken拦截器里，每次请求之前若有token存在则将认证信息保存到SecurityContext中。每次请求之后清除SecurityContext。（bug现象：我们已经设置一些http授权了，首先登录，则第一次访问/user/setting自然是成功，但是结束请求后SecurityContext请求被清理；接着马上第二次访问/user/setting，由于过滤器（Filter）是先于拦截器的，而认证信息被清理，直接拒绝访问！！！）
 
 
-SPring的知识：
+Spring的知识：
 - 1、@PostConstruct:依赖注入完成之后，而进行方法的初始化。

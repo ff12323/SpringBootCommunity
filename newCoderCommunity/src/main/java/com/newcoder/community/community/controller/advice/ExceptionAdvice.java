@@ -29,7 +29,7 @@ public class ExceptionAdvice {
 
         //我们需要判断一下，这里时普通请求，还是异步请求（返回的是JSON,不是页面）
         String xRequestedWith = request.getHeader("x-requested-with");
-        if(xRequestedWith.equals("XMLHttpRequest")){
+        if(xRequestedWith != null && xRequestedWith.equals("XMLHttpRequest")){
             // application/json 则向浏览器返回一个字符串，浏览器自动转换为json对象
             response.setContentType("application/plain;charset=utf-8"); //返回普通字符串，但是需要人为的转换为json对象。比如$.parseJSON
             PrintWriter writer = response.getWriter();

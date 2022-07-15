@@ -69,6 +69,8 @@
     </select>
 
 
+
+
     <insert id="insertMessage" parameterType="Message" keyProperty="id">
         insert into message (<include refid="insertFields"></include>)
         values (#{fromId}, #{toId}, #{conversationId}, #{content}, #{status}, #{createTime})
@@ -81,6 +83,28 @@
             #{id}
         </foreach>
     </update>
+
+    <select id="getNewestUnreadMsg" resultType="Message">
+        select <include refid="selectFields"></include>
+        from message
+        where status != 2
+        and to_id = #{id}
+        and conversation_id = #{topic}
+        order by create_time desc
+        limit 0,1
+    </select>
+
+
+    <!-- 系统消息：未读则一定是接受消息的人 -->
+    <select id="findSystemMsgUnreadCount" resultType="int">
+        select count(id) from  message
+        where status = 0
+        and from_id = 1
+        and to_id = #{id}
+        <if test="topic != null">
+            and conversation_id = #{topic}
+        </if>
+    </select>
 
 
 </mapper>

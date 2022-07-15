@@ -1,10 +1,13 @@
 package com.newcoder.community.community.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.newcoder.community.community.entity.Event;
 import com.newcoder.community.community.entity.Message;
 import com.newcoder.community.community.entity.Page;
 import com.newcoder.community.community.entity.User;
 import com.newcoder.community.community.service.MessageService;
 import com.newcoder.community.community.service.UserService;
+import com.newcoder.community.community.util.CommunityConstant;
 import com.newcoder.community.community.util.CommunityUtil;
 import com.newcoder.community.community.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.*;
 
 @Controller
-public class MessageController {
+public class MessageController implements CommunityConstant {
     @Autowired
     private HostHolder hostHolder;
 
@@ -27,6 +31,33 @@ public class MessageController {
 
     @Autowired
     private UserService userService;
+
+
+
+    //系统通知页面
+    @RequestMapping(path = "/letter/notice",method = RequestMethod.GET)
+    public String getLetterNotice(Model model){
+
+        User user = hostHolder.getUser();
+
+
+        //系统消息：评论
+        int umCount = messageService.findSystemMsgUnreadCount(user.getId(),TOPIC_COMMENT);
+        Map<String,Object> commentMsg = new HashMap<>();
+        commentMsg.put("umCount",umCount);
+        Message cMes = messageService.getNewestUnreadMsg(user.getId(),TOPIC_COMMENT);
+        Event event = JSONObject.parseObject(
+                HtmlUtils.htmlUnescape(cMes.getContent()),Event.class);
+        commentMsg.put("user",userService.findUserById(event.getUserId()));
+        commentMsg.put("createTime",cMes.getCreateTime());
+        model.addAttribute("commentMsg",commentMsg);
+
+
+
+        return "/site/notice";
+    }
+
+
 
     //私信列表
     //页面向服务器传参，会被自动做转换。比如向page的参数，自动转为page对象。为什么可以？Spring MVC底层内置了很多参数转换器。

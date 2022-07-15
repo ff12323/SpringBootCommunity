@@ -4,10 +4,34 @@ import java.util.Date;
 
 public class Message {
     private int id;
+
+    /**
+     * 消息发布人的ID
+     */
     private int fromId;
+
+    /**
+     * 消息接收人的ID
+     */
     private int toId;
+
+    /**
+     * 会话ID
+     * <ul>
+     *     <li>1、2个用户发消息（存储：发送人ID_接收人ID）</li>
+     *     <li>2、后台系统_用户消息 （存储：消息主题）</li>
+     * </ul>
+     */
     private String conversationId;
+
+    /**
+     * 消息内容
+     */
     private String content;
+
+    /**
+     * 消息状态
+     */
     private int status;
     private Date createTime;
 

@@ -31,4 +31,12 @@ public interface MessageMapper {
     // 修改多个消息的状态
     int updateStatus(List<Integer> ids,int status);
 
+    Message getNewestUnreadMsg(int id, String topic);
+
+    int findSystemMsgUnreadCount(int id, String topic);
+
+
+    //
+
+
 }
